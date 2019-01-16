@@ -24,10 +24,12 @@ begin
   crt.DelLine;
 end;
 
+{$ifdef Windows}
 procedure _GotoXY32(Stack:PStack); cdecl;
 begin
   crt.GotoXY32(TSVMMem(Stack^.popv).GetW, TSVMMem(Stack^.popv).GetW);
 end;
+{$endif}
 
 procedure _InsLine(Stack:PStack); cdecl;
 begin
@@ -56,6 +58,7 @@ begin
   crt.Sound(TSVMMem(Stack^.popv).GetW);
 end;
 
+{$ifdef Windows}
 procedure _WhereX32(Stack:PStack); cdecl;
 begin
   Stack^.push(TSVMMem.CreateFW(crt.WhereX32));
@@ -73,6 +76,7 @@ begin
 			   TSVMMem(Stack^.popv).GetW,
 			   TSVMMem(Stack^.popv).GetW);
 end;
+{$ENDIF}
 
 procedure _ClrEol(Stack:PStack); cdecl;
 begin
@@ -205,14 +209,18 @@ exports  _CursorBig name 'CURSORBIG';
 exports  _CursorOff name 'CURSOROFF';
 exports  _CursorOn name 'CURSORON';
 exports  _DelLine name 'DELLINE';
+{$ifdef Windows}
 exports  _GotoXY32 name 'GOTOXY32';
+{$endif}
 exports  _InsLine name 'INSLINE';
 exports  _KeyPressed name 'KEYPRESSED';
 exports  _ReadKey name 'READKEY';
 exports  _Sound name 'SOUND';
+{$ifdef Windows}
 exports  _WhereX32 name 'WHEREX32';
 exports  _WhereY32 name 'WHEREY32';
 exports  _Window32 name 'WINDOW32';
+{$endif}
 exports  _ClrEol name 'CLREOL';
 exports  _ClrScr name 'CLRSCR';
 

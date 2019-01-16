@@ -1,5 +1,7 @@
 //{$Define BuildInLibrary}
 
+{$mode objfpc}
+
 {$ifdef BuildInLibrary}
   library svm_core;
 {$else}
@@ -257,7 +259,7 @@ type
            PByte(Cardinal(@i) + 3)^ := pb^[bpos + 5];
            PByte(Cardinal(@i) + 2)^ := pb^[bpos + 6];
            PByte(Cardinal(@i) + 1)^ := pb^[bpos + 7];
-           PByte(Cardinal(@i))^ := pb^[bpos + 4];
+           PByte(@i)^ := pb^[bpos + 4];
            self.SetConst(
              cardinal(length(self.constants)) - consts_count, TSVMMem.CreateF(i, svmtInt)
            );
@@ -273,7 +275,7 @@ type
           PByte(Cardinal(@d) + 3)^ := pb^[bpos + 5];
           PByte(Cardinal(@d) + 2)^ := pb^[bpos + 6];
           PByte(Cardinal(@d) + 1)^ := pb^[bpos + 7];
-          PByte(Cardinal(@d))^ := pb^[bpos + 8];
+          PByte(@d)^ := pb^[bpos + 8];
           self.SetConst(
             cardinal(length(self.constants)) - consts_count, TSVMMem.CreateF(d, svmtReal));
           Inc(bpos, 9);
