@@ -27,7 +27,7 @@ import _PrintLn           "libcrcrt.lib" "PRINTLN"
 {_end_}
 
 {_ifndef_ argcounter}
-import Print              "libcrcrt.lib" "PRINT_RUNTIME"
+import Print              "libcrcrt.lib" "PRINT"
 import PrintLn            "libcrcrt.lib" "PRINTLN"
 {_end_}
 
