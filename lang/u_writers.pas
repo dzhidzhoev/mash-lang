@@ -16,8 +16,10 @@ implementation
 
 procedure St_WriteWord(s: TStream; w: word);
 begin
-  s.WriteByte(PByte(cardinal(@w) + 1)^);
-  s.WriteByte(PByte(@w)^);
+  for i := sizeof(w)-1 downto 0 do
+  begin
+  	s.WriteByte(PByte(@w)[i]);
+  end;
 end;
 
 procedure St_WriteCardinal(s: TStream; c: cardinal);
@@ -26,32 +28,24 @@ var
 begin
   for i := sizeof(c)-1 downto 0 do
   begin
-  	s.WriteByte(PByte(cardinal(@c) + i)^);
+  	s.WriteByte(PByte(@c)[i]);
   end;
 end;
 
 procedure St_WriteInt64(s: TStream; i: int64);
 begin
-  s.WriteByte(PByte(cardinal(@i) + 7)^);
-  s.WriteByte(PByte(cardinal(@i) + 6)^);
-  s.WriteByte(PByte(cardinal(@i) + 5)^);
-  s.WriteByte(PByte(cardinal(@i) + 4)^);
-  s.WriteByte(PByte(cardinal(@i) + 3)^);
-  s.WriteByte(PByte(cardinal(@i) + 2)^);
-  s.WriteByte(PByte(cardinal(@i) + 1)^);
-  s.WriteByte(PByte(@i)^);
+  for i := sizeof(i)-1 downto 0 do
+  begin
+  	s.WriteByte(PByte(@i)[i]);
+  end;
 end;
 
 procedure St_WriteDouble(s: TStream; d: double);
 begin
-  s.WriteByte(PByte(cardinal(@d) + 7)^);
-  s.WriteByte(PByte(cardinal(@d) + 6)^);
-  s.WriteByte(PByte(cardinal(@d) + 5)^);
-  s.WriteByte(PByte(cardinal(@d) + 4)^);
-  s.WriteByte(PByte(cardinal(@d) + 3)^);
-  s.WriteByte(PByte(cardinal(@d) + 2)^);
-  s.WriteByte(PByte(cardinal(@d) + 1)^);
-  s.WriteByte(PByte(@d)^);
+  for i := sizeof(d)-1 downto 0 do
+  begin
+  	s.WriteByte(PByte(@d)[i]);
+  end;
 end;
 
 end.
