@@ -122,8 +122,7 @@ begin
       Result := True;
       while c < s1.Size do
       begin
-        Result := Result and (PByte(cardinal(s1.Memory) + c)^ =
-          PByte(cardinal(s2.Memory) + c)^);
+        Result := Result and (PByte(s1.Memory)[c] = PByte(s2.Memory)[c]);
         Inc(c);
       end;
     end;
