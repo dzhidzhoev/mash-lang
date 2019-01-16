@@ -1,0 +1,219 @@
+// Base functions & Initialization.
+
+import _I2S         "bf.lib" "INTTOSTR"
+import _F2S         "bf.lib" "FLOATTOSTR"
+import _S2I         "bf.lib" "STRTOINT"
+import _S2F         "bf.lib" "STRTOFLOAT"
+import Halt         "bf.lib" "HALT"
+import Sleep        "bf.lib" "SLEEP"
+import _StrUpper    "bf.lib" "STRUPPER"
+import _StrLower    "bf.lib" "STRLOWER"
+import _Now         "bf.lib" "CURRENTDATETIME"
+import Randomize    "bf.lib" "RANDOMIZE"
+import _Random      "bf.lib" "RANDOM"
+import _RandomB     "bf.lib" "RANDOMB"
+import _TickCnt     "bf.lib" "TICKCNT"
+
+// Global values
+int  true  -1
+int  false  0
+
+var null = "null"
+
+func BoolToStr(b):
+  if b == true:
+    return "true"
+  else:
+    return "false"
+  end
+end
+
+proc ExitThread():
+  threxit
+end
+
+func new(obj):
+  var v = new
+  v = obj
+  return v
+end
+
+proc copy(obj):
+  push obj
+  copy
+  gpm
+  swp
+  pop
+end
+
+func gpmx(obj):
+  push obj
+  gpm
+  pop
+  return obj
+end
+
+proc SizeOf(obj):
+  push obj
+  sizeof
+  gpm
+end
+
+enum Types [TypeNull, TypeWord, TypeInt, TypeReal, TypeStr, TypeArray]
+
+proc TypeOf(obj):
+  push obj
+  typeof
+  gpm
+end
+
+func Len(array):
+  push array
+  alen
+  gpm
+  var ln
+  pop ln
+  return ln
+end
+
+proc SetLen(array, newlen):
+  push array
+  push newlen
+  salen
+  pop
+end
+
+proc gc():
+  gc
+  stkdrop
+end
+
+{_ifndef_ argcounter}
+
+proc Free(simple_object):
+  rem simple_object
+end
+
+{_end_}
+
+{_ifdef_ argcounter}
+
+proc Free(...):
+  var t
+  t ?= argcount
+  while t > 0:
+    rem
+    dec t
+  end
+end
+
+proc opx(...):
+  var i, k, t = argcount \ 2
+  while t > 0:
+    pop i
+    pop k
+    i = i + k
+    dec t
+  end
+end
+
+{_end_}
+
+func _op_in(v, array):
+  var i, ln
+  i ?= 0
+  ln ?= len(array)
+  while i < ln:
+    if array[i] == v:
+      return true
+    end
+    inc i
+  end
+  return false
+end
+
+func temp():
+  return 0
+end
+
+proc GetError():
+  //err already in stack & already markered
+end
+
+proc Exit():
+  jr
+end
+
+var ParamCount, ParamList
+
+proc __EntryPoint():
+  pop ParamCount
+  ParamList ?= new[ParamCount]
+
+  i ?= 0
+  while i < ParamCount:
+    peek ParamList[i]
+    i++
+  end
+
+  Main()
+  gc
+end
+
+proc gpm(v):
+  push v
+  gpm
+  pop
+end
+
+// API redefine
+
+proc I2S():
+  _I2S()
+  gpm
+end
+
+proc F2S():
+  _F2S()
+  gpm
+end
+
+proc S2I():
+  _S2I()
+  gpm
+end
+
+proc S2F():
+  _S2F()
+  gpm
+end
+
+proc StrUpper():
+  _StrUpper()
+  gpm
+end
+
+proc StrLower():
+  _StrLower()
+  gpm
+end
+
+proc Now():
+  _Now()
+  gpm
+end
+
+proc Random():
+  _Random()
+  gpm
+end
+
+proc RandomB():
+  _RandomB()
+  gpm
+end
+
+proc TickCnt():
+  _TickCnt()
+  gpm
+end

@@ -1,0 +1,163 @@
+import Crt.CursorBig      "libcrcrt.dylib" "CURSORBIG"
+import Crt.CursorOff      "libcrcrt.dylib" "CURSOROFF"
+import Crt.CursorOn       "libcrcrt.dylib" "CURSORON"
+import Crt.DelLine        "libcrcrt.dylib" "DELLINE"
+import Crt.InsLine        "libcrcrt.dylib" "INSLINE"
+import Crt.KeyPressed     "libcrcrt.dylib" "KEYPRESSED"
+import Crt.ReadKey        "libcrcrt.dylib" "READKEY"
+import Crt.Sound          "libcrcrt.dylib" "SOUND"
+import Crt.ClrEOL         "libcrcrt.dylib" "CLREOL"
+import Crt.ClrScr         "libcrcrt.dylib" "CLRSCR"
+import Crt.GetDirectVideo "libcrcrt.dylib" "GETDIRECTVIDEO"
+import Crt.GetLastMode    "libcrcrt.dylib" "GETLASTMODE"
+import Crt.GetTextAttr    "libcrcrt.dylib" "GETTEXTATTR"
+import Crt.GetWindMax     "libcrcrt.dylib" "GETWINDMAX"
+import Crt.GetWindMaxX    "libcrcrt.dylib" "GETWINDMAXX"
+import Crt.GetWindMaxY    "libcrcrt.dylib" "GETWINDMAXY"
+import Crt.GetWindMin     "libcrcrt.dylib" "GETWINDMIN"
+import Crt.GetWindMinX    "libcrcrt.dylib" "GETWINDMINX"
+import Crt.GetWindMinY    "libcrcrt.dylib" "GETWINDMINY"
+import Crt.GetCheckBreak  "libcrcrt.dylib" "GETCHECKBREAK"
+import Crt.GetCheckEOF    "libcrcrt.dylib" "GETCHECKEOF"
+import Crt.GetCheckSnow   "libcrcrt.dylib" "GETCHECKSNOW"
+
+{_ifdef_ argcounter}
+import _Print             "libcrcrt.dylib" "PRINT"
+import _PrintLn           "libcrcrt.dylib" "PRINTLN"
+{_end_}
+
+{_ifndef_ argcounter}
+import Print              "libcrcrt.dylib" "PRINT"
+import PrintLn            "libcrcrt.dylib" "PRINTLN"
+{_end_}
+
+import PrintFormat        "libcrcrt.dylib" "PRINTFORMAT"
+import Input              "libcrcrt.dylib" "INPUT"
+import InputLn            "libcrcrt.dylib" "INPUTLN"
+
+// CRT modes
+word  Crt.BW40           0            // 40x25 B/W on Color Adapter
+word  Crt.CO40           1            // 40x25 Color on Color Adapter
+word  Crt.BW80           2            // 80x25 B/W on Color Adapter
+word  Crt.CO80           3            // 80x25 Color on Color Adapter
+word  Crt.Mono           7            // 80x25 on Monochrome Adapter
+word  Crt.Font8x8        256          // Add-in for ROM font
+
+// Foreground and background color constants
+word Crt.Black          0
+word Crt.Blue           1
+word Crt.Green          2
+word Crt.Cyan           3
+word Crt.Red            4
+word Crt.Magenta        5
+word Crt.Brown          6
+word Crt.LightGray      7
+
+// Foreground color constants
+word Crt.DarkGray       8
+word Crt.LightBlue      9
+word Crt.LightGreen     10
+word Crt.LightCyan      11
+word Crt.LightRed       12
+word Crt.LightMagenta   13
+word Crt.Yellow         14
+word Crt.White          15
+
+// Add-in for blinking
+word Crt.Blink          128
+
+//Some methods
+
+{_ifdef_ argcounter}
+
+proc print(...):
+  var t
+  t ?= argcount
+  while t > 0:
+    _print()
+    dec t
+  end
+end
+
+proc println(...):
+  var t
+  t ?= argcount
+  while t > 0:
+    _print()
+    dec t
+  end
+  _println("")
+end
+
+{_end_}
+
+//var Crt.TextAttr
+
+//proc Crt.Init():
+//  Crt.TextAttr = new(0x07)
+//end
+
+//proc Crt.TextColor(.color):
+//  and  .color, 143
+//  and  Crt.TextAttr, 112
+//  or   Crt.TextAttr, .color
+//end
+
+//proc Crt.TextBackground(.color):
+//var .buf = 0xf0
+//  store(.color)
+//  and  .buf,          .color
+//  shl  .color,        4
+//  and  .color,        .buf
+//  mov  .buf,          0x0f
+//  or   .buf,          !Crt.Blink
+//  and  .buf,          Crt.TextAttr
+//  or   .color,        .buf
+//  mov  Crt.TextAttr, .color
+//  load(.color)
+//end
+
+//proc Crt.NormVideo():
+//  push 7
+//  Crt.TextColor()
+//  push 0
+//  Crt.TextBackGround()
+//end
+
+//proc Crt.WhereX():
+//  Crt.WhereX32()
+//  push   256
+//  gpm
+//  swp
+//  mod
+//end
+
+//proc Crt.WhereY():
+//  Crt.WhereY32()
+//  push   256
+//  gpm
+//  swp
+//  mod
+//end
+
+//proc Crt.Pause():
+//  gc
+//  Crt.KeyPressed()
+//  gpm
+//  jz !Crt.Pause
+//end
+
+//proc PrintFmt():
+//  push .Crt.TextAttr
+//  swp
+//  PrintFormat()
+//end
+
+//proc PrintLnFmt():
+//  push Crt.TextAttr
+//  swp
+//  PrintFormat()
+//  push ""
+//  gpm
+//  PrintLn()
+//end
