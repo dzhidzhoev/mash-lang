@@ -97,20 +97,23 @@ begin
   Stack^.push(TSVMMem.CreateFW(GetTickCount64));
 end;
 
+const
+  ExportedSymbolNamePrefix = {$ifdef Darwin}'_'{$else}''{$endif};
+
 {EXPORTS DB}
-exports DINTTOSTR           name 'INTTOSTR';
-exports DFLOATTOSTR         name 'FLOATTOSTR';
-exports DSTRTOINT           name 'STRTOINT';
-exports DSTRTOFLOAT         name 'STRTOFLOAT';
-exports DHALT               name 'HALT';
-exports DSLEEP              name 'SLEEP';
-exports DSTRUPPER           name 'STRUPPER';
-exports DSTRLOWER           name 'STRLOWER';
-exports DNOW                name 'CURRENTDATETIME';
-exports DRANDOMIZE          name 'RANDOMIZE';
-exports DRANDOM             name 'RANDOM';
-exports DRANDOMB            name 'RANDOMB';
-exports DTICKCNT            name 'TICKCNT';
+exports DINTTOSTR           name ExportedSymbolNamePrefix + 'INTTOSTR';
+exports DFLOATTOSTR         name ExportedSymbolNamePrefix + 'FLOATTOSTR';
+exports DSTRTOINT           name ExportedSymbolNamePrefix + 'STRTOINT';
+exports DSTRTOFLOAT         name ExportedSymbolNamePrefix + 'STRTOFLOAT';
+exports DHALT               name ExportedSymbolNamePrefix + 'HALT';
+exports DSLEEP              name ExportedSymbolNamePrefix + 'SLEEP';
+exports DSTRUPPER           name ExportedSymbolNamePrefix + 'STRUPPER';
+exports DSTRLOWER           name ExportedSymbolNamePrefix + 'STRLOWER';
+exports DNOW                name ExportedSymbolNamePrefix + 'CURRENTDATETIME';
+exports DRANDOMIZE          name ExportedSymbolNamePrefix + 'RANDOMIZE';
+exports DRANDOM             name ExportedSymbolNamePrefix + 'RANDOM';
+exports DRANDOMB            name ExportedSymbolNamePrefix + 'RANDOMB';
+exports DTICKCNT            name ExportedSymbolNamePrefix + 'TICKCNT';
 
 begin
 end.

@@ -30,6 +30,9 @@ uses
   {$IfDef DebugVer}
    , typinfo
   {$EndIf};
+  
+const
+  RuntimeDLibsPrefix = '';
 
 {***** OP Codes ***************************************************************}
 type
@@ -252,13 +255,13 @@ type
 
         ctInt64:
         begin
-           PByte(Cardinal(@i) + 7)^ := pb^[bpos + 1];
-           PByte(Cardinal(@i) + 6)^ := pb^[bpos + 2];
-           PByte(Cardinal(@i) + 5)^ := pb^[bpos + 3];
-           PByte(Cardinal(@i) + 4)^ := pb^[bpos + 4];
-           PByte(Cardinal(@i) + 3)^ := pb^[bpos + 5];
-           PByte(Cardinal(@i) + 2)^ := pb^[bpos + 6];
-           PByte(Cardinal(@i) + 1)^ := pb^[bpos + 7];
+           PByte(@i)[7] := pb^[bpos + 1];
+           PByte(@i)[6] := pb^[bpos + 2];
+           PByte(@i)[5] := pb^[bpos + 3];
+           PByte(@i)[4] := pb^[bpos + 4];
+           PByte(@i)[3] := pb^[bpos + 5];
+           PByte(@i)[2] := pb^[bpos + 6];
+           PByte(@i)[1] := pb^[bpos + 7];
            PByte(@i)^ := pb^[bpos + 4];
            self.SetConst(
              cardinal(length(self.constants)) - consts_count, TSVMMem.CreateF(i, svmtInt)
@@ -268,13 +271,13 @@ type
 
         ctDouble:
         begin
-          PByte(Cardinal(@d) + 7)^ := pb^[bpos + 1];
-          PByte(Cardinal(@d) + 6)^ := pb^[bpos + 2];
-          PByte(Cardinal(@d) + 5)^ := pb^[bpos + 3];
-          PByte(Cardinal(@d) + 4)^ := pb^[bpos + 4];
-          PByte(Cardinal(@d) + 3)^ := pb^[bpos + 5];
-          PByte(Cardinal(@d) + 2)^ := pb^[bpos + 6];
-          PByte(Cardinal(@d) + 1)^ := pb^[bpos + 7];
+          PByte(@d)[7] := pb^[bpos + 1];
+          PByte(@d)[6] := pb^[bpos + 2];
+          PByte(@d)[5] := pb^[bpos + 3];
+          PByte(@d)[4] := pb^[bpos + 4];
+          PByte(@d)[3] := pb^[bpos + 5];
+          PByte(@d)[2] := pb^[bpos + 6];
+          PByte(@d)[1] := pb^[bpos + 7];
           PByte(@d)^ := pb^[bpos + 8];
           self.SetConst(
             cardinal(length(self.constants)) - consts_count, TSVMMem.CreateF(d, svmtReal));
@@ -327,12 +330,12 @@ type
 type
   TLibraryListSection = object
   private
-    libs: array of THandle;
+    libs: array of TLibHandle;
     procedure SetSize(sz: word);
-    procedure SetLibH(id: word; h: THandle);
+    procedure SetLibH(id: word; h: TLibHandle);
   public
     procedure Parse(pb: PByteArr; mainclasspath: string);
-    function GetLibH(id: word): THandle;
+    function GetLibH(id: word): TLibHandle;
   end;
 
   procedure TLibraryListSection.SetSize(sz: word);
@@ -340,7 +343,7 @@ type
     setlength(self.libs, sz);
   end;
 
-  procedure TLibraryListSection.SetLibH(id: word; h: THandle);
+  procedure TLibraryListSection.SetLibH(id: word; h: TLibHandle);
   begin
     self.libs[id] := h;
   end;
@@ -350,6 +353,7 @@ type
     bpos: cardinal;
     lib_count, sl: word;
     s: string;
+    h: TLibHandle;
   begin
     lib_count := cardinal((pb^[0] shl 8) + pb^[1]);
     bpos := 2;
@@ -366,19 +370,20 @@ type
       end;
       if FileExists(ExtractFilePath(mainclasspath) + s) then
         s := ExtractFilePath(mainclasspath) + s
-      else if FileExists(ExtractFilePath(ParamStr(0)) + 'lib\' + s) then
-        s := ExtractFilePath(ParamStr(0)) + 'lib\' + s
+      else if FileExists(ExtractFilePath(ParamStr(0)) + 'lib' + PathDelim + s) then
+        s := ExtractFilePath(ParamStr(0)) + 'lib' + PathDelim + s
       else if FileExists(ExtractFilePath(ParamStr(0)) + s) then
         s := ExtractFilePath(ParamStr(0)) + s
       else
         VMError('Error: can''t find library "' + s + '".');
-      self.SetLibH(cardinal(length(self.libs)) - lib_count, LoadLibrary(s));
+      h := LoadLibrary(s);
+      self.SetLibH(cardinal(length(self.libs)) - lib_count, h);
       Dec(lib_count);
     end;
     CutLeftBytes(pb, bpos);
   end;
 
-  function TLibraryListSection.GetLibH(id: word): THandle;
+  function TLibraryListSection.GetLibH(id: word): TLibHandle;
   begin
     Result := self.libs[id];
   end;
@@ -440,7 +445,7 @@ type
           Dec(sl);
         end;
         self.SetFunc(cardinal(length(self.methods)) - methods_count,
-          GetProcAddress(libs.GetLibH(lb), s));
+          GetProcedureAddress(libs.GetLibH(lb), RuntimeDLibsPrefix + s));
         Dec(methods_count);
       end;
       CutLeftBytes(pb, bpos);
@@ -1399,7 +1404,7 @@ type
        dec(c);
      end;
     self.stack.push(TSVMMem.CreateFW(ParamCount));
-
+    
     self.RunThread;
   end;
 
@@ -1500,6 +1505,7 @@ end.
 {$else}
 
 procedure CheckHeader(pb:PByteArr);
+var i: integer;
 begin
   if Length(pb^) >= 10 then
    begin

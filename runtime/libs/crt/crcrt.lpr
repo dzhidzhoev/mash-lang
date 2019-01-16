@@ -192,43 +192,46 @@ begin
   Stack^.push(TSVMMem.CreateFS(s));
 end;
 
-exports _GetDirectVideo name 'GETDIRECTVIDEO';
-exports _GetLastMode name 'GETLASTMODE';
-exports _GetTextAttr name 'GETTEXTATTR';
-exports _GetWindMax name 'GETWINDMAX';
-exports _GetWindMaxX name 'GETWINDMAXX';
-exports _GetWindMaxY name 'GETWINDMAXY';
-exports _GetWindMin name 'GETWINDMIN';
-exports _GetWindMinX name 'GETWINDMINX';
-exports _GetWindMinY name 'GETWINDMINY';
-exports _GetCheckBreak name 'GETCHECKBREAK';
-exports _GetCheckEOF name 'GETCHECKEOF';
-exports _GetCheckSnow name 'GETCHECKSNOW';
+const
+  ExportedSymbolNamePrefix = {$ifdef Darwin}'_'{$else}''{$endif};
 
-exports  _CursorBig name 'CURSORBIG';
-exports  _CursorOff name 'CURSOROFF';
-exports  _CursorOn name 'CURSORON';
-exports  _DelLine name 'DELLINE';
-{$ifdef Windows}
-exports  _GotoXY32 name 'GOTOXY32';
-{$endif}
-exports  _InsLine name 'INSLINE';
-exports  _KeyPressed name 'KEYPRESSED';
-exports  _ReadKey name 'READKEY';
-exports  _Sound name 'SOUND';
-{$ifdef Windows}
-exports  _WhereX32 name 'WHEREX32';
-exports  _WhereY32 name 'WHEREY32';
-exports  _Window32 name 'WINDOW32';
-{$endif}
-exports  _ClrEol name 'CLREOL';
-exports  _ClrScr name 'CLRSCR';
+exports _GetDirectVideo name ExportedSymbolNamePrefix + 'GETDIRECTVIDEO';
+exports _GetLastMode name ExportedSymbolNamePrefix + 'GETLASTMODE';
+exports _GetTextAttr name ExportedSymbolNamePrefix + 'GETTEXTATTR';
+exports _GetWindMax name ExportedSymbolNamePrefix + 'GETWINDMAX';
+exports _GetWindMaxX name ExportedSymbolNamePrefix + 'GETWINDMAXX';
+exports _GetWindMaxY name ExportedSymbolNamePrefix + 'GETWINDMAXY';
+exports _GetWindMin name ExportedSymbolNamePrefix + 'GETWINDMIN';
+exports _GetWindMinX name ExportedSymbolNamePrefix + 'GETWINDMINX';
+exports _GetWindMinY name ExportedSymbolNamePrefix + 'GETWINDMINY';
+exports _GetCheckBreak name ExportedSymbolNamePrefix + 'GETCHECKBREAK';
+exports _GetCheckEOF name ExportedSymbolNamePrefix + 'GETCHECKEOF';
+exports _GetCheckSnow name ExportedSymbolNamePrefix + 'GETCHECKSNOW';
 
-exports  _Print name 'PRINT';
-exports  _Println name 'PRINTLN';
-exports  _PRINTFORMAT name 'PRINTFORMAT';
-exports  _Input name 'INPUT';
-exports  _Inputln name 'INPUTLN';
+exports  _CursorBig name ExportedSymbolNamePrefix + 'CURSORBIG';
+exports  _CursorOff name ExportedSymbolNamePrefix + 'CURSOROFF';
+exports  _CursorOn name ExportedSymbolNamePrefix + 'CURSORON';
+exports  _DelLine name ExportedSymbolNamePrefix + 'DELLINE';
+{$ifdef Windows}
+exports  _GotoXY32 name ExportedSymbolNamePrefix + 'GOTOXY32';
+{$endif}
+exports  _InsLine name ExportedSymbolNamePrefix + 'INSLINE';
+exports  _KeyPressed name ExportedSymbolNamePrefix + 'KEYPRESSED';
+exports  _ReadKey name ExportedSymbolNamePrefix + 'READKEY';
+exports  _Sound name ExportedSymbolNamePrefix + 'SOUND';
+{$ifdef Windows}
+exports  _WhereX32 name ExportedSymbolNamePrefix + 'WHEREX32';
+exports  _WhereY32 name ExportedSymbolNamePrefix + 'WHEREY32';
+exports  _Window32 name ExportedSymbolNamePrefix + 'WINDOW32';
+{$endif}
+exports  _ClrEol name ExportedSymbolNamePrefix + 'CLREOL';
+exports  _ClrScr name ExportedSymbolNamePrefix + 'CLRSCR';
+
+exports  _Print name ExportedSymbolNamePrefix + 'PRINT';
+exports  _Println name ExportedSymbolNamePrefix + 'PRINTLN';
+exports  _PRINTFORMAT name ExportedSymbolNamePrefix + 'PRINTFORMAT';
+exports  _Input name ExportedSymbolNamePrefix + 'INPUT';
+exports  _Inputln name ExportedSymbolNamePrefix + 'INPUTLN';
 
 //HIGHVIDEO
 //LOWVIDEO

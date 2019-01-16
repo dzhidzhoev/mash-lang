@@ -207,33 +207,36 @@ begin
   TFileStream(Stack^.popv).Free;
 end;
 
+const
+  ExportedSymbolNamePrefix = {$ifdef Darwin}'_'{$else}''{$endif};
+  
 {EXPORTS DB}
-exports _Stream_Create                 name '_Stream_Create';
-exports _Stream_Seek                   name '_Stream_Seek';
-exports _Stream_GetCaretPos            name '_Stream_GetCaretPos';
-exports _Stream_WriteFromMemoryStream  name '_Stream_WriteFromMemoryStream';
-exports _Stream_ReadFromMemoryStream   name '_Stream_ReadFromMemoryStream';
-exports _Stream_CopyFromStream         name '_Stream_CopyFromStream';
-exports _Stream_WriteByte              name '_Stream_WriteByte';
-exports _Stream_WriteWord              name '_Stream_WriteWord';
-exports _Stream_WriteInt               name '_Stream_WriteInt';
-exports _Stream_WriteFloat             name '_Stream_WriteFloat';
-exports _Stream_WriteStr               name '_Stream_WriteStr';
-exports _Stream_ReadByte               name '_Stream_ReadByte';
-exports _Stream_ReadWord               name '_Stream_ReadWord';
-exports _Stream_ReadInt                name '_Stream_ReadInt';
-exports _Stream_ReadFloat              name '_Stream_ReadFloat';
-exports _Stream_ReadStr                name '_Stream_ReadStr';
-exports _Stream_GetSize                name '_Stream_GetSize';
-exports _Stream_Clear                  name '_Stream_Clear';
-exports _Stream_Free                   name '_Stream_Free';
-exports _MemoryStream_Create           name '_MemoryStream_Create';
-exports _MemoryStream_Free             name '_MemoryStream_Free';
-exports _MemoryStream_LoadFromStream   name '_MemoryStream_LoadFromStream';
-exports _MemoryStream_StoreToStream    name '_MemoryStream_StoreToStream';
-exports _MemoryStream_LoadFromFile     name '_MemoryStream_LoadFromFile';
-exports _MemoryStream_SaveToFile       name '_MemoryStream_SaveToFile';
-exports _FileStream_Create             name '_FileStream_Create';
-exports _FileStream_Free               name '_FileStream_Free';
+exports _Stream_Create                 name ExportedSymbolNamePrefix + '_Stream_Create';
+exports _Stream_Seek                   name ExportedSymbolNamePrefix + '_Stream_Seek';
+exports _Stream_GetCaretPos            name ExportedSymbolNamePrefix + '_Stream_GetCaretPos';
+exports _Stream_WriteFromMemoryStream  name ExportedSymbolNamePrefix + '_Stream_WriteFromMemoryStream';
+exports _Stream_ReadFromMemoryStream   name ExportedSymbolNamePrefix + '_Stream_ReadFromMemoryStream';
+exports _Stream_CopyFromStream         name ExportedSymbolNamePrefix + '_Stream_CopyFromStream';
+exports _Stream_WriteByte              name ExportedSymbolNamePrefix + '_Stream_WriteByte';
+exports _Stream_WriteWord              name ExportedSymbolNamePrefix + '_Stream_WriteWord';
+exports _Stream_WriteInt               name ExportedSymbolNamePrefix + '_Stream_WriteInt';
+exports _Stream_WriteFloat             name ExportedSymbolNamePrefix + '_Stream_WriteFloat';
+exports _Stream_WriteStr               name ExportedSymbolNamePrefix + '_Stream_WriteStr';
+exports _Stream_ReadByte               name ExportedSymbolNamePrefix + '_Stream_ReadByte';
+exports _Stream_ReadWord               name ExportedSymbolNamePrefix + '_Stream_ReadWord';
+exports _Stream_ReadInt                name ExportedSymbolNamePrefix + '_Stream_ReadInt';
+exports _Stream_ReadFloat              name ExportedSymbolNamePrefix + '_Stream_ReadFloat';
+exports _Stream_ReadStr                name ExportedSymbolNamePrefix + '_Stream_ReadStr';
+exports _Stream_GetSize                name ExportedSymbolNamePrefix + '_Stream_GetSize';
+exports _Stream_Clear                  name ExportedSymbolNamePrefix + '_Stream_Clear';
+exports _Stream_Free                   name ExportedSymbolNamePrefix + '_Stream_Free';
+exports _MemoryStream_Create           name ExportedSymbolNamePrefix + '_MemoryStream_Create';
+exports _MemoryStream_Free             name ExportedSymbolNamePrefix + '_MemoryStream_Free';
+exports _MemoryStream_LoadFromStream   name ExportedSymbolNamePrefix + '_MemoryStream_LoadFromStream';
+exports _MemoryStream_StoreToStream    name ExportedSymbolNamePrefix + '_MemoryStream_StoreToStream';
+exports _MemoryStream_LoadFromFile     name ExportedSymbolNamePrefix + '_MemoryStream_LoadFromFile';
+exports _MemoryStream_SaveToFile       name ExportedSymbolNamePrefix + '_MemoryStream_SaveToFile';
+exports _FileStream_Create             name ExportedSymbolNamePrefix + '_FileStream_Create';
+exports _FileStream_Free               name ExportedSymbolNamePrefix + '_FileStream_Free';
 begin
 end.

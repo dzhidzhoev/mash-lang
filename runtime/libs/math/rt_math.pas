@@ -70,18 +70,21 @@ begin
   TSVMMem(Stack^.peek).SetD(Exp(TSVMMem(Stack^.popv).GetD));
 end;
 
+const
+  ExportedSymbolNamePrefix = {$ifdef Darwin}'_'{$else}''{$endif};
+  
 {EXPORTS}
-exports FSIN     name 'RT_SIN';
-exports FCOS     name 'RT_COS';
-exports FTG      name 'RT_TG';
-exports FCTG     name 'RT_CTG';
-exports FARCSIN  name 'RT_ARCSIN';
-exports FARCCOS  name 'RT_ARCCOS';
-exports FLOG10   name 'RT_LOG10';
-exports FLOG2    name 'RT_LOG2';
-exports FLOGN    name 'RT_LOGN';
-exports FLNXP1   name 'RT_LNXP1';
-exports FExp     name 'RT_EXP';
+exports FSIN     name ExportedSymbolNamePrefix + 'RT_SIN';
+exports FCOS     name ExportedSymbolNamePrefix + 'RT_COS';
+exports FTG      name ExportedSymbolNamePrefix + 'RT_TG';
+exports FCTG     name ExportedSymbolNamePrefix + 'RT_CTG';
+exports FARCSIN  name ExportedSymbolNamePrefix + 'RT_ARCSIN';
+exports FARCCOS  name ExportedSymbolNamePrefix + 'RT_ARCCOS';
+exports FLOG10   name ExportedSymbolNamePrefix + 'RT_LOG10';
+exports FLOG2    name ExportedSymbolNamePrefix + 'RT_LOG2';
+exports FLOGN    name ExportedSymbolNamePrefix + 'RT_LOGN';
+exports FLNXP1   name ExportedSymbolNamePrefix + 'RT_LNXP1';
+exports FExp     name ExportedSymbolNamePrefix + 'RT_EXP';
 
 begin
 end.
