@@ -175,7 +175,7 @@ begin
         if pos('>', s) <> Length(s) then
           PrpError('Invalid construction: "uses <' + s + '".');
         Delete(s, length(s), 1);
-        s := ExtractFilePath(ParamStr(0)) + 'inc\' + s;
+        s := ExtractFilePath(ParamStr(0)) + 'inc' + PathDelim + s;
         if not FileExists(s) then
          begin
            if FileExists(s + '.mash') then
@@ -309,7 +309,7 @@ begin
         if pos('>', s) <> Length(s) then
           PrpError('Invalid construction: "uses <' + s + '".');
         Delete(s, length(s), 1);
-        s := ExtractFilePath(ParamStr(0)) + 'inc\' + s;
+        s := ExtractFilePath(ParamStr(0)) + 'inc' + PathDelim + s;
         if not FileExists(s) then
          begin
            if FileExists(s + '.mash') then
