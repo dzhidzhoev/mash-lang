@@ -21,11 +21,13 @@ begin
 end;
 
 procedure St_WriteCardinal(s: TStream; c: cardinal);
+var 
+  i: integer;
 begin
-  s.WriteByte(PByte(cardinal(@c) + 3)^);
-  s.WriteByte(PByte(cardinal(@c) + 2)^);
-  s.WriteByte(PByte(cardinal(@c) + 1)^);
-  s.WriteByte(PByte(@c)^);
+  for i := sizeof(c)-1 downto 0 do
+  begin
+  	s.WriteByte(PByte(cardinal(@c) + i)^);
+  end;
 end;
 
 procedure St_WriteInt64(s: TStream; i: int64);
